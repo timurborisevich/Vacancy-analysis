@@ -5,5 +5,8 @@
 
 <code>![DB Scheme](https://github.com/timurborisevich/Vacancy-analysis/blob/master/DB_scheme.PNG "")</code>
 
+
+<code>[Документация по API HH](https://github.com/hhru/api)
+
 <code>[Power BI](https://github.com/timurborisevich/DataLearn/blob/main/Module_03/DataLearn.pbix "")</code>
 
