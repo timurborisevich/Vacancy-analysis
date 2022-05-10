@@ -50,7 +50,7 @@ drop table if EXISTS "public".Vacancies_key_skills CASCADE
 
 CREATE TABLE Vacancies_key_skills
 (
-  "id" 			varchar(12) NOT NULL,
+  "id" 			varchar(12) NOT null,
   vacancy_type  varchar(100) NOT NULL,
   name 			varchar(300) NOT NULL
 );
@@ -66,8 +66,12 @@ drop table if EXISTS "public".Update_date cascade
 CREATE TABLE "public".Update_date
 (
  update_date     date NOT NULL,
- dollar_exchange numeric NULL,
- euro_exchange   numeric NULL
+ BYR_ex			 numeric NULL,
+ EUR_ex			 numeric NULL,
+ KGS_ex			 numeric NULL,
+ KZT_ex			 numeric NULL,
+ USD_ex			 numeric NULL,
+ UZS_ex			 numeric NULL
 );
 
 truncate table "public".Update_date

@@ -1,6 +1,7 @@
 import requests
 from sqlalchemy import engine as sql
 import time
+import datetime
 import pandas as pd
 from DB_config import server, user, password, port, database
 
@@ -91,9 +92,13 @@ def SaveVacanciesIdForLoad(text, vacancy_type, areas, stop_names):
 
 # Функция выполняет получение и запись данных в SQL по списку вакансий
 def GetAndWriteVacanciesData(vacancy_type, new_load):
-    df_index = ['id','vacancy_type', 'name', 'schedule','experience','area_name','url','employment','salary_from',\
-                'salary_to','salary_currency','salary_gross','archived','created_date','published_date','emloyer_name',\
-                'employer_url','employer_trusted','status','has_test','premium']
+    update_date = datetime.datetime.now().strftime('%d-%m-%Y')
+
+    currencies = requests.get('https://www.cbr-xml-daily.ru/daily_json.js').json()['Valute']
+
+    df_index = ['id','vacancy_type', 'name', 'update_date', 'schedule','experience','area_name','url','employment','salary_from',\
+                'salary_to','salary_currency','currency_exchange' ,'salary_gross','archived','created_date','published_date',\
+                'emloyer_name', 'employer_url','employer_trusted','status','has_test','premium']
     df_vacancies = pd.DataFrame(columns=df_index)
 
     df_index = ['id', 'vacancy_type', 'name']
@@ -103,9 +108,7 @@ def GetAndWriteVacanciesData(vacancy_type, new_load):
     eng = sql.create_engine(connection_str)
     conn = eng.connect()
     if new_load:
-        # conn.execute('truncate table "public".Vacancies')
         conn.execute('DELETE FROM public.Vacancies WHERE vacancy_type= \'{}\''.format(vacancy_type))
-        # conn.execute('truncate table "public".Vacancies_key_skills')
         conn.execute('DELETE FROM public.Vacancies_key_skills WHERE vacancy_type= \'{}\''.format(vacancy_type))
 
     vacancies_for_load = pd.read_sql('SELECT * FROM "public".Vacancies_for_load WHERE vacancy_type= \'{}\''.format(vacancy_type), conn)
@@ -151,6 +154,15 @@ def GetAndWriteVacanciesData(vacancy_type, new_load):
         except:
             salary_currency = None
         try:
+            if salary_currency == 'RUR':
+                currency_exchange = 1
+            elif salary_currency == 'BYR':
+                currency_exchange = currencies['BYN']['Value']/currencies['BYN']['Nominal']
+            else:
+                currency_exchange = currencies[salary_currency]['Value']/currencies[salary_currency]['Nominal']
+        except:
+            currency_exchange = None
+        try:
             salary_gross = req['salary']['gross']
         except:
             salary_gross = None
@@ -176,8 +188,8 @@ def GetAndWriteVacanciesData(vacancy_type, new_load):
         has_test = req['has_test']
         premium = req['premium']
 
-        vacancy_data = [id, vacancy_type, name, schedule, experience, area_name, url, employment, salary_from,
-                        salary_to, salary_currency, salary_gross, archived, created_date, published_date, emloyer_name,
+        vacancy_data = [id, vacancy_type, name, update_date, schedule, experience, area_name, url, employment, salary_from,
+                        salary_to, salary_currency, currency_exchange, salary_gross, archived, created_date, published_date, emloyer_name,
                         employer_url, employer_trusted, status, has_test, premium]
         df_vacancies.loc[0] = vacancy_data
 
@@ -197,11 +209,12 @@ def GetAndWriteVacanciesData(vacancy_type, new_load):
     conn.close()
     print('Запись данных вакансий в SQL завершена')
 
-def UpdateInfo(update_date, dollar_exchange, euro_exchange):
-    connection_str = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, server, port, database)
-    eng = sql.create_engine(connection_str)
-    conn = eng.connect()
-    conn.execute('truncate table "public".update_date')
-    conn.execute('INSERT INTO public.update_date (update_date, dollar_exchange, euro_exchange) '
-                 'VALUES(\'{}\', \'{}\', \'{}\')'.format(update_date, dollar_exchange, euro_exchange))
-    conn.close()
+# def UpdateInfo(update_date, BYR_ex, EUR_ex, KGS_ex, KZT_ex, USD_ex, UZS_ex):
+#     connection_str = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, server, port, database)
+#     eng = sql.create_engine(connection_str)
+#     conn = eng.connect()
+#     conn.execute('truncate table "public".update_date')
+#     conn.execute('INSERT INTO public.update_date (update_date, BYR_ex, EUR_ex, KGS_ex, KZT_ex, USD_ex, UZS_ex) '
+#                  'VALUES(\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\')'.format(update_date, BYR_ex,
+#                                                                                          EUR_ex, KGS_ex, KZT_ex, USD_ex, UZS_ex))
+#     conn.close()

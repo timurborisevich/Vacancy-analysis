@@ -1,10 +1,7 @@
-from Functions import GetAndWriteVacanciesData, UpdateInfo
+from Functions import GetAndWriteVacanciesData
 
 vacancy_type = 'программист 1С'
 new_load = False
 GetAndWriteVacanciesData(vacancy_type, new_load)
 
-update_date = '2022-05-06'
-dollar_exchange = 69.4
-euro_exchange = 73.25
-UpdateInfo(update_date, dollar_exchange, euro_exchange)
+# UpdateInfo(update_date, BYR_ex, EUR_ex, KGS_ex, KZT_ex, USD_ex, UZS_ex)

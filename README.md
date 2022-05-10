@@ -1,9 +1,8 @@
-# Анализ вакансий. Краткая документация.
+# Анализ вакансий
 
 <code>[Документация по API HH](https://github.com/hhru/api)
 
-Для хранения полученных с HH данных понадобится база данных.
-Схема БД:
+Для хранения полученных с HH данных понадобится база данных. Схема БД:
 
 <code>![DB Scheme](https://github.com/timurborisevich/Vacancy-analysis/blob/master/DB_scheme.PNG "")</code>
 
