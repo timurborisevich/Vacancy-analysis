@@ -208,13 +208,3 @@ def GetAndWriteVacanciesData(vacancy_type, new_load):
 
     conn.close()
     print('Запись данных вакансий в SQL завершена')
-
-# def UpdateInfo(update_date, BYR_ex, EUR_ex, KGS_ex, KZT_ex, USD_ex, UZS_ex):
-#     connection_str = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, server, port, database)
-#     eng = sql.create_engine(connection_str)
-#     conn = eng.connect()
-#     conn.execute('truncate table "public".update_date')
-#     conn.execute('INSERT INTO public.update_date (update_date, BYR_ex, EUR_ex, KGS_ex, KZT_ex, USD_ex, UZS_ex) '
-#                  'VALUES(\'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\')'.format(update_date, BYR_ex,
-#                                                                                          EUR_ex, KGS_ex, KZT_ex, USD_ex, UZS_ex))
-#     conn.close()
