@@ -206,5 +206,10 @@ def GetAndWriteVacanciesData(vacancy_type, new_load):
         if vacancy_count % 100 == 0:
             print('В SQL загружено {} вакансий'.format(vacancy_count))
 
+    # В базе необходимо почистить дубли строк вакансий по ключу "Работодатель-название вакансии",
+    # т.к. один работодатель часто дублирует одну и ту же вакансию по разным городам, а это испортит статистику
+    conn.execute('DELETE FROM public.Vacancies v1 USING public.Vacancies v2 WHERE v1.id < v2.id and v1.vacancy_type = \'{}\' ' \
+                 'AND v1.name = v2.name and v1.employer_url = v2.employer_url'.format(vacancy_type))
+
     conn.close()
     print('Запись данных вакансий в SQL завершена')
