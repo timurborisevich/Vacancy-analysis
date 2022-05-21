@@ -1,6 +1,9 @@
 # Анализ вакансий
 
-### Результаты:  
+### Цель:  
+Анализ имеющихсяна рынке труда вакансий по данным HeadHunter для интересующих специальностей.
+
+### Результаты для профессий в сфере 1С:  
 
 [Опубликованный в Power BI отчет](https://app.powerbi.com/view?r=eyJrIjoiN2FmOTk4ZjItOTQzOS00YjNiLTkwZWEtNGRmZTU2YzlkZDIyIiwidCI6ImU4NGU3MzcwLWFlMDUtNDZmZS04MDBmLTk4NjNlYzY1MDViMiIsImMiOjh9&pageName=ReportSection)
 
@@ -18,7 +21,7 @@
 2. Таблица "Vacancies" - основная таблица для анализа. Содержит список вакансий c загруженными атрибутами с HH. 
 3. Таблица "Vacancies_key_skills" содержит список ключевых навыков по каждой вакансии.  
 
-<code>[Power BI Desctop](https://github.com/timurborisevich/DataLearn/blob/main/Module_03/Vacancies_analysis.pbix "")</code>
+<code>[Power BI Desktop](https://github.com/timurborisevich/DataLearn/blob/main/Module_03/Vacancies_analysis.pbix "")</code>
 
 Скриншоты дашбордов:
 
