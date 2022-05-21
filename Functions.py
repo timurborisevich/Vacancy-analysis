@@ -98,7 +98,7 @@ def GetAndWriteVacanciesData(vacancy_type, new_load):
 
     df_index = ['id','vacancy_type', 'name', 'update_date', 'schedule','experience','area_name','url','employment','salary_from',\
                 'salary_to','salary_currency','currency_exchange' ,'salary_gross','archived','created_date','published_date',\
-                'emloyer_name', 'employer_url','employer_trusted','status','has_test','premium']
+                'employer_name', 'employer_url','employer_trusted','status','has_test','premium']
     df_vacancies = pd.DataFrame(columns=df_index)
 
     df_index = ['id', 'vacancy_type', 'name']
@@ -170,9 +170,9 @@ def GetAndWriteVacanciesData(vacancy_type, new_load):
         created_date = req['created_at'][0:10]
         published_date = req['published_at'][0:10]
         try:
-            emloyer_name = req['employer']['name']
+            employer_name = req['employer']['name']
         except:
-            emloyer_name = None
+            employer_name = None
         try:
             employer_url = req['employer']['alternate_url']
         except:
@@ -189,7 +189,7 @@ def GetAndWriteVacanciesData(vacancy_type, new_load):
         premium = req['premium']
 
         vacancy_data = [id, vacancy_type, name, update_date, schedule, experience, area_name, url, employment, salary_from,
-                        salary_to, salary_currency, currency_exchange, salary_gross, archived, created_date, published_date, emloyer_name,
+                        salary_to, salary_currency, currency_exchange, salary_gross, archived, created_date, published_date, employer_name,
                         employer_url, employer_trusted, status, has_test, premium]
         df_vacancies.loc[0] = vacancy_data
 
@@ -208,8 +208,8 @@ def GetAndWriteVacanciesData(vacancy_type, new_load):
 
     # В базе необходимо почистить дубли строк вакансий по ключу "Работодатель-название вакансии",
     # т.к. один работодатель часто дублирует одну и ту же вакансию по разным городам, а это испортит статистику
-    conn.execute('DELETE FROM public.Vacancies v1 USING public.Vacancies v2 WHERE v1.id < v2.id and v1.vacancy_type = \'{}\' ' \
-                 'AND v1.name = v2.name and v1.employer_url = v2.employer_url'.format(vacancy_type))
+    # conn.execute('DELETE FROM public.Vacancies v1 USING public.Vacancies v2 WHERE v1.id < v2.id and v1.vacancy_type = \'{}\' ' \
+    #              'AND v1.name = v2.name and v1.employer_url = v2.employer_url'.format(vacancy_type))
 
     conn.close()
     print('Запись данных вакансий в SQL завершена')

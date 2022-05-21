@@ -33,7 +33,7 @@ CREATE TABLE "public".Vacancies
  archived         	boolean NULL,
  created_date     	date NULL,
  published_date   	date NULL,
- emloyer_name     	varchar(200) NULL,
+ employer_name     	varchar(200) NULL,
  employer_url     	varchar(200) NULL,
  employer_trusted 	boolean NULL,
  status           	varchar(50) NULL,
